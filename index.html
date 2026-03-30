@@ -37,8 +37,14 @@ a:hover { color: #06b6d4; border-bottom-color: #06b6d4; }
 .q-options { list-style: none; padding: 0; margin-bottom: 16px; }
 .q-options li { padding: 10px 14px; margin-bottom: 6px; border-radius: 8px; background: rgba(30, 40, 65, 0.6); border: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; color: #9ba3b8; }
 .q-options li.correct { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #6ee7b7; }
-.q-explain { background: rgba(99, 102, 241, 0.08); border-left: 3px solid #6366f1; padding: 16px 20px; border-radius: 0 10px 10px 0; margin-top: 12px; }
-.q-explain p { font-size: 0.92rem; color: #a5b4fc; white-space: pre-line; }
+.q-explain { margin-top: 12px; }
+.q-explain-item { padding: 14px 18px; border-radius: 10px; margin-bottom: 10px; font-size: 0.92rem; line-height: 1.75; }
+.q-explain-item.correct-exp { background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; }
+.q-explain-item.correct-exp .exp-label { color: #6ee7b7; }
+.q-explain-item.wrong-exp { background: rgba(239, 68, 68, 0.06); border-left: 3px solid rgba(239, 68, 68, 0.4); }
+.q-explain-item.wrong-exp .exp-label { color: #fca5a5; }
+.exp-label { font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; display: block; }
+.exp-text { color: #b4bcd0; }
 details { cursor: pointer; }
 details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding: 8px 0; }
 .footer { margin-top: 60px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: #6b7280; font-size: 0.9rem; }
@@ -98,10 +104,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Global Accelerator uses traffic dials to control the percentage of traffic routed to each endpoint. If us-east-1 is set to 100% and eu-west-1 to 0%, all traffic routes to us-east-1 regardless of geography. This is a common misconfiguration during testing or gradual rollouts.
-- Why A is wrong: Global Accelerator supports routing from all global locations, including South America. It uses AWS edge locations worldwide to ingress traffic onto the AWS network.
-- Why B is wrong: If eu-west-1 were unhealthy, traffic would correctly fail over to us-east-1. However, the question states this is unexpected behavior, suggesting a configuration issue rather than a health problem.
-- Why D is wrong: Global Accelerator operates independently and doesn't require CloudFront. They serve different purposes: Global Accelerator for TCP/UDP traffic optimization, CloudFront for HTTP/HTTPS content caching.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Global Accelerator uses traffic dials to control the percentage of traffic routed to each endpoint. If us-east-1 is set to 100% and eu-west-1 to 0%, all traffic routes to us-east-1 regardless of geography. This is a common misconfiguration during testing or gradual rollouts.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Global Accelerator supports routing from all global locations, including South America. It uses AWS edge locations worldwide to ingress traffic onto the AWS network.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">If eu-west-1 were unhealthy, traffic would correctly fail over to us-east-1. However, the question states this is unexpected behavior, suggesting a configuration issue rather than a health problem.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Global Accelerator operates independently and doesn't require CloudFront. They serve different purposes: Global Accelerator for TCP/UDP traffic optimization, CloudFront for HTTP/HTTPS content caching.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -115,10 +121,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Route 53 Resolver query logging captures all DNS queries made from VPCs, including queries to private hosted zones, public domains, and forwarded queries. Logs can be sent to CloudWatch Logs, S3, or Kinesis Data Firehose for centralized compliance auditing.
-- Why B is wrong: VPC Flow Logs capture network traffic metadata (source/destination IP, port, protocol, bytes) but do not include DNS query details like the domain name being resolved. Filtering for port 53 shows that DNS traffic occurred, but not what was queried.
-- Why C is wrong: There is no native &quot;VPC DNS server logs&quot; feature in CloudWatch. VPCs use Route 53 Resolver for DNS, and the correct logging mechanism is Resolver query logging, not CloudWatch-based DNS server logs.
-- Why D is wrong: CloudTrail logs Route 53 control plane API calls (e.g., CreateHostedZone, ChangeResourceRecordSets) but does not capture data plane DNS queries made by resources in VPCs. It audits management operations, not DNS resolution activity.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Route 53 Resolver query logging captures all DNS queries made from VPCs, including queries to private hosted zones, public domains, and forwarded queries. Logs can be sent to CloudWatch Logs, S3, or Kinesis Data Firehose for centralized compliance auditing.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">VPC Flow Logs capture network traffic metadata (source/destination IP, port, protocol, bytes) but do not include DNS query details like the domain name being resolved. Filtering for port 53 shows that DNS traffic occurred, but not what was queried.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">There is no native &quot;VPC DNS server logs&quot; feature in CloudWatch. VPCs use Route 53 Resolver for DNS, and the correct logging mechanism is Resolver query logging, not CloudWatch-based DNS server logs.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">CloudTrail logs Route 53 control plane API calls (e.g., CreateHostedZone, ChangeResourceRecordSets) but does not capture data plane DNS queries made by resources in VPCs. It audits management operations, not DNS resolution activity.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -132,10 +138,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: NLB operates at Layer 4, supports UDP, provides ultra-low latency, and preserves client source IP addresses by default when using target type IP or instance. This meets all requirements for the gaming application.
-- Why A is wrong: ALB doesn't support UDP traffic; it only supports HTTP/HTTPS. X-Forwarded-For is an HTTP header that doesn't apply to UDP protocols.
-- Why C is wrong: Proxy protocol is used when source IP preservation is not possible (e.g., with TLS termination at NLB). For UDP traffic with IP targets, NLB preserves source IP natively without proxy protocol.
-- Why D is wrong: Gateway Load Balancer is for deploying virtual appliances, not for game server load balancing. It adds unnecessary complexity and doesn't provide the performance characteristics needed.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">NLB operates at Layer 4, supports UDP, provides ultra-low latency, and preserves client source IP addresses by default when using target type IP or instance. This meets all requirements for the gaming application.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">ALB doesn't support UDP traffic; it only supports HTTP/HTTPS. X-Forwarded-For is an HTTP header that doesn't apply to UDP protocols.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Proxy protocol is used when source IP preservation is not possible (e.g., with TLS termination at NLB). For UDP traffic with IP targets, NLB preserves source IP natively without proxy protocol.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Gateway Load Balancer is for deploying virtual appliances, not for game server load balancing. It adds unnecessary complexity and doesn't provide the performance characteristics needed.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -149,10 +155,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: ALB access logs capture detailed information about HTTP requests including client IP, request path, response codes, processing times, and more. Logs are stored in S3 for analysis.
-- Why B is wrong: CloudTrail logs API calls to manage load balancers (CreateLoadBalancer, ModifyListener, etc.) but does not record the HTTP requests processed by the load balancer itself.
-- Why C is wrong: CloudWatch Logs with ALB metrics provide aggregate statistics (RequestCount, TargetResponseTime) but do not capture individual request-level details such as specific request paths, per-request response codes, or per-request processing times.
-- Why D is wrong: VPC Flow Logs capture network-level traffic metadata (source/destination IPs, ports, bytes, accept/reject) but do not include HTTP-layer details like request paths, response codes, or processing times.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">ALB access logs capture detailed information about HTTP requests including client IP, request path, response codes, processing times, and more. Logs are stored in S3 for analysis.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">CloudTrail logs API calls to manage load balancers (CreateLoadBalancer, ModifyListener, etc.) but does not record the HTTP requests processed by the load balancer itself.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">CloudWatch Logs with ALB metrics provide aggregate statistics (RequestCount, TargetResponseTime) but do not capture individual request-level details such as specific request paths, per-request response codes, or per-request processing times.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">VPC Flow Logs capture network-level traffic metadata (source/destination IPs, ports, bytes, accept/reject) but do not include HTTP-layer details like request paths, response codes, or processing times.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -168,13 +174,13 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Different locations address location failure, different routers address device failure, and VPN backup addresses complete Direct Connect failure. Together they provide comprehensive resilience.
-- Why A is correct: Different Direct Connect locations protect against location-level failures (facility issues, regional problems).
-- Why B is correct: Different on-premises routers protect against device-level failures (router hardware or software issues).
-- Why C is correct: VPN backup provides connectivity if all Direct Connect connections fail, offering ultimate resilience with different technology.
-- Why D is wrong: Multiple VIFs on one connection don't provide physical redundancy. If the connection fails, all VIFs fail.
-- Why E is wrong: While different providers add diversity, it's not one of the three failure scenarios identified (device, connection, location). Options A, B, C directly address the stated scenarios.
-- Why F is wrong: Multiple BGP sessions on one connection don't provide physical redundancy against connection or device failure.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Different locations address location failure, different routers address device failure, and VPN backup addresses complete Direct Connect failure. Together they provide comprehensive resilience.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why A is correct</span><span class="exp-text">Different Direct Connect locations protect against location-level failures (facility issues, regional problems).</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why B is correct</span><span class="exp-text">Different on-premises routers protect against device-level failures (router hardware or software issues).</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why C is correct</span><span class="exp-text">VPN backup provides connectivity if all Direct Connect connections fail, offering ultimate resilience with different technology.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Multiple VIFs on one connection don't provide physical redundancy. If the connection fails, all VIFs fail.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why E is wrong</span><span class="exp-text">While different providers add diversity, it's not one of the three failure scenarios identified (device, connection, location). Options A, B, C directly address the stated scenarios.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why F is wrong</span><span class="exp-text">Multiple BGP sessions on one connection don't provide physical redundancy against connection or device failure.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -188,10 +194,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Transit Gateway acts as a centralized routing hub that supports transitive routing. By attaching all 15 VPCs and configuring Transit Gateway route tables, inter-VPC traffic can be routed through the inspection VPC where firewall appliances perform traffic inspection. This requires only 16 attachments (15 VPCs + 1 inspection VPC) and centralized route table management.
-- Why B is wrong: Full-mesh VPC peering for 15 VPCs requires 105 peering connections (n(n-1)/2). VPC peering is non-transitive, so routing traffic through a central inspection VPC via peering connections is operationally complex and doesn't scale. Each VPC would need route table entries pointing to the inspection VPC.
-- Why C is wrong: PrivateLink is designed for exposing specific services, not for general inter-VPC connectivity with centralized inspection. It would require creating separate endpoint services for every application and doesn't support transparent traffic inspection between VPCs.
-- Why D is wrong: VPC sharing allows multiple accounts to share subnets, but placing all workloads in a single VPC removes network-level isolation between workloads. Network ACLs are stateless and limited to 20 rules per ACL, making them insufficient for full traffic inspection compared to a dedicated firewall appliance.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Transit Gateway acts as a centralized routing hub that supports transitive routing. By attaching all 15 VPCs and configuring Transit Gateway route tables, inter-VPC traffic can be routed through the inspection VPC where firewall appliances perform traffic inspection. This requires only 16 attachments (15 VPCs + 1 inspection VPC) and centralized route table management.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Full-mesh VPC peering for 15 VPCs requires 105 peering connections (n(n-1)/2). VPC peering is non-transitive, so routing traffic through a central inspection VPC via peering connections is operationally complex and doesn't scale. Each VPC would need route table entries pointing to the inspection VPC.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">PrivateLink is designed for exposing specific services, not for general inter-VPC connectivity with centralized inspection. It would require creating separate endpoint services for every application and doesn't support transparent traffic inspection between VPCs.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">VPC sharing allows multiple accounts to share subnets, but placing all workloads in a single VPC removes network-level isolation between workloads. Network ACLs are stateless and limited to 20 rules per ACL, making them insufficient for full traffic inspection compared to a dedicated firewall appliance.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -205,10 +211,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Transit Gateways in both regions with inter-region peering provide full mesh connectivity between all VPCs. Direct Connect attached to us-east-1 Transit Gateway extends to both regions via peering, providing complete connectivity.
-- Why A is wrong: Direct Connect Gateway connects VPCs to Direct Connect but doesn't provide VPC-to-VPC connectivity across regions. Additional connectivity (peering or Transit Gateway) is needed.
-- Why C is wrong: Separate Direct Connect connections per region is more expensive than using Transit Gateway inter-region peering to extend a single Direct Connect connection.
-- Why D is wrong: VPN between regions adds encryption overhead and doesn't provide the performance of Transit Gateway inter-region peering over AWS backbone.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Transit Gateways in both regions with inter-region peering provide full mesh connectivity between all VPCs. Direct Connect attached to us-east-1 Transit Gateway extends to both regions via peering, providing complete connectivity.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Direct Connect Gateway connects VPCs to Direct Connect but doesn't provide VPC-to-VPC connectivity across regions. Additional connectivity (peering or Transit Gateway) is needed.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Separate Direct Connect connections per region is more expensive than using Transit Gateway inter-region peering to extend a single Direct Connect connection.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">VPN between regions adds encryption overhead and doesn't provide the performance of Transit Gateway inter-region peering over AWS backbone.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -222,10 +228,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why A is correct: Multiple VIFs can coexist on a single Direct Connect connection. Creating a transit VIF alongside the existing private VIF allows gradual migration without disrupting existing connectivity.
-- Why B is wrong: Using a Site-to-Site VPN to Transit Gateway adds complexity and does not leverage the existing Direct Connect connection. Creating a transit VIF on the same connection is simpler and maintains Direct Connect performance.
-- Why C is wrong: Ordering a new Direct Connect connection is unnecessary and expensive. The existing connection can support both private and transit VIFs simultaneously.
-- Why D is wrong: Deleting the private VIF before creating the transit VIF causes immediate downtime for existing workloads. Creating the transit VIF first enables zero-downtime migration.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why A is correct</span><span class="exp-text">Multiple VIFs can coexist on a single Direct Connect connection. Creating a transit VIF alongside the existing private VIF allows gradual migration without disrupting existing connectivity.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Using a Site-to-Site VPN to Transit Gateway adds complexity and does not leverage the existing Direct Connect connection. Creating a transit VIF on the same connection is simpler and maintains Direct Connect performance.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Ordering a new Direct Connect connection is unnecessary and expensive. The existing connection can support both private and transit VIFs simultaneously.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Deleting the private VIF before creating the transit VIF causes immediate downtime for existing workloads. Creating the transit VIF first enables zero-downtime migration.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -239,10 +245,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS RAM allows sharing a Transit Gateway with other accounts in the same Organization. Once shared, application accounts can create VPC attachments to the shared Transit Gateway from their own accounts, enabling centralized hub-and-spoke connectivity without deploying a Transit Gateway per account.
-- Why A is wrong: VPC peering creates point-to-point connections and does not scale for 50 VPCs (would require up to 1,225 peering connections). Transit Gateway provides hub-and-spoke connectivity that scales much better.
-- Why C is wrong: Deploying separate Transit Gateways per account is unnecessary and expensive. A single shared Transit Gateway in the networking account is the recommended pattern. TGW peering would add operational overhead.
-- Why D is wrong: Direct Connect is for hybrid (on-premises to AWS) connectivity, not for connecting VPCs across accounts. Auto-accept is a useful feature for TGW attachments but is not a substitute for RAM sharing, which is the mechanism that makes the TGW visible to other accounts.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS RAM allows sharing a Transit Gateway with other accounts in the same Organization. Once shared, application accounts can create VPC attachments to the shared Transit Gateway from their own accounts, enabling centralized hub-and-spoke connectivity without deploying a Transit Gateway per account.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">VPC peering creates point-to-point connections and does not scale for 50 VPCs (would require up to 1,225 peering connections). Transit Gateway provides hub-and-spoke connectivity that scales much better.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Deploying separate Transit Gateways per account is unnecessary and expensive. A single shared Transit Gateway in the networking account is the recommended pattern. TGW peering would add operational overhead.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Direct Connect is for hybrid (on-premises to AWS) connectivity, not for connecting VPCs across accounts. Auto-accept is a useful feature for TGW attachments but is not a substitute for RAM sharing, which is the mechanism that makes the TGW visible to other accounts.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -256,10 +262,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: The DS (Delegation Signer) record in the parent domain (.com, .net, etc.) is what establishes the chain of trust between the parent zone and the child zone's DNSKEY. If the DS record is missing or incorrect in the parent domain, validating resolvers cannot build the chain of trust and DNSSEC validation will fail. Verifying the DS record in the parent domain is the first troubleshooting step because it is the most common point of failure when DNSSEC signing is enabled but validation is not working.
-- Why A is wrong: While verifying RRSIG records confirms that Route 53 is signing responses, the presence of RRSIG records alone does not guarantee that validating resolvers can verify the signatures. If the chain of trust is broken at the parent level (missing or incorrect DS record), RRSIG records will exist but validation will still fail.
-- Why B is wrong: DNSKEY records are automatically managed by Route 53 when DNSSEC signing is enabled. They are unlikely to be the cause of validation failures. The more common issue is a missing or misconfigured DS record in the parent domain.
-- Why D is wrong: Resolver query logging captures DNS queries made within VPCs but does not directly show DNSSEC validation status for external resolvers. The issue described affects external resolvers, which are outside the scope of Resolver query logging.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">The DS (Delegation Signer) record in the parent domain (.com, .net, etc.) is what establishes the chain of trust between the parent zone and the child zone's DNSKEY. If the DS record is missing or incorrect in the parent domain, validating resolvers cannot build the chain of trust and DNSSEC validation will fail. Verifying the DS record in the parent domain is the first troubleshooting step because it is the most common point of failure when DNSSEC signing is enabled but validation is not working.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">While verifying RRSIG records confirms that Route 53 is signing responses, the presence of RRSIG records alone does not guarantee that validating resolvers can verify the signatures. If the chain of trust is broken at the parent level (missing or incorrect DS record), RRSIG records will exist but validation will still fail.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">DNSKEY records are automatically managed by Route 53 when DNSSEC signing is enabled. They are unlikely to be the cause of validation failures. The more common issue is a missing or misconfigured DS record in the parent domain.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Resolver query logging captures DNS queries made within VPCs but does not directly show DNSSEC validation status for external resolvers. The issue described affects external resolvers, which are outside the scope of Resolver query logging.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -273,10 +279,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: CloudFormation automatically analyzes resource dependencies (e.g., subnets reference VPC) and creates resources in the correct order. Explicit DependsOn is only needed for non-obvious dependencies.
-- Why B is wrong: While DependsOn can be used, it's not required for obvious dependencies like subnet→VPC. CloudFormation handles these automatically.
-- Why C is wrong: Separate stacks add complexity. CloudFormation handles resource ordering within a single stack automatically.
-- Why D is wrong: Lambda orchestration adds unnecessary complexity. CloudFormation's native dependency resolution is sufficient.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">CloudFormation automatically analyzes resource dependencies (e.g., subnets reference VPC) and creates resources in the correct order. Explicit DependsOn is only needed for non-obvious dependencies.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">While DependsOn can be used, it's not required for obvious dependencies like subnet→VPC. CloudFormation handles these automatically.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Separate stacks add complexity. CloudFormation handles resource ordering within a single stack automatically.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Lambda orchestration adds unnecessary complexity. CloudFormation's native dependency resolution is sufficient.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -292,13 +298,13 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: When BGP is established but EC2 instances cannot reach on-premises, the issue lies in the data-plane path: VPC route tables must have entries pointing on-premises CIDRs to the Virtual Private Gateway, security groups on the EC2 instances must permit traffic from on-premises IP ranges, and BGP must be advertising the correct prefixes in both directions so that return traffic is routed properly.
-- Why A (Security groups) is correct: Security groups are stateful firewalls on each ENI. If the on-premises CIDR is not allowed inbound, packets arriving via the VGW are dropped at the instance level even though the network path exists.
-- Why D (VPC route tables) is correct: The VPC route table associated with the EC2 instance subnets must contain a route for the on-premises CIDR with the Virtual Private Gateway as the target. Without this route, return traffic from EC2 has no path back to on-premises.
-- Why E (BGP route advertising) is correct: BGP session being 'established' only means the peers exchanged OPEN/KEEPALIVE messages. If the customer gateway is not advertising on-premises prefixes to AWS (or AWS is not advertising VPC CIDRs back), the data plane has no forwarding entries and traffic is black-holed.
-- Why B (Direct Connect bandwidth) is wrong: The question states BGP is up, so the physical link is operational. Insufficient bandwidth causes performance degradation or packet loss under load, not a complete inability to communicate.
-- Why C (VPC Flow Logs) is wrong: Flow Logs are a monitoring and troubleshooting tool that records traffic metadata. Enabling them does not affect connectivity in any way.
-- Why F (Jumbo frames) is wrong: Jumbo frames (MTU 9001) are an optional performance optimization on Direct Connect. Standard 1500-byte MTU works by default, so jumbo frame settings do not prevent basic connectivity.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">When BGP is established but EC2 instances cannot reach on-premises, the issue lies in the data-plane path: VPC route tables must have entries pointing on-premises CIDRs to the Virtual Private Gateway, security groups on the EC2 instances must permit traffic from on-premises IP ranges, and BGP must be advertising the correct prefixes in both directions so that return traffic is routed properly.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A (Security groups) is correct</span><span class="exp-text">Security groups are stateful firewalls on each ENI. If the on-premises CIDR is not allowed inbound, packets arriving via the VGW are dropped at the instance level even though the network path exists.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D (VPC route tables) is correct</span><span class="exp-text">The VPC route table associated with the EC2 instance subnets must contain a route for the on-premises CIDR with the Virtual Private Gateway as the target. Without this route, return traffic from EC2 has no path back to on-premises.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why E (BGP route advertising) is correct</span><span class="exp-text">BGP session being 'established' only means the peers exchanged OPEN/KEEPALIVE messages. If the customer gateway is not advertising on-premises prefixes to AWS (or AWS is not advertising VPC CIDRs back), the data plane has no forwarding entries and traffic is black-holed.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B (Direct Connect bandwidth) is wrong</span><span class="exp-text">The question states BGP is up, so the physical link is operational. Insufficient bandwidth causes performance degradation or packet loss under load, not a complete inability to communicate.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C (VPC Flow Logs) is wrong</span><span class="exp-text">Flow Logs are a monitoring and troubleshooting tool that records traffic metadata. Enabling them does not affect connectivity in any way.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why F (Jumbo frames) is wrong</span><span class="exp-text">Jumbo frames (MTU 9001) are an optional performance optimization on Direct Connect. Standard 1500-byte MTU works by default, so jumbo frame settings do not prevent basic connectivity.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -312,10 +318,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Transit Gateway route tables control routing. Omitting the default route (0.0.0.0/0) while including specific routes to other VPCs and on-premises prevents internet access while maintaining required connectivity.
-- Why B is wrong: Security groups apply to ENIs in VPCs, not to Transit Gateway routing decisions.
-- Why C is wrong: Removing the attachment would prevent all connectivity, not just internet access.
-- Why D is wrong: NACLs apply to subnet boundaries in VPCs, not to Transit Gateway routing.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Transit Gateway route tables control routing. Omitting the default route (0.0.0.0/0) while including specific routes to other VPCs and on-premises prevents internet access while maintaining required connectivity.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Security groups apply to ENIs in VPCs, not to Transit Gateway routing decisions.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Removing the attachment would prevent all connectivity, not just internet access.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">NACLs apply to subnet boundaries in VPCs, not to Transit Gateway routing.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -329,10 +335,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Transit Gateway Network Manager provides a centralized global network view, topology visualization, and automated event detection for Transit Gateway attachments across multiple Regions. It shows route table associations and propagation status, making it the best tool to diagnose why a newly attached VPC cannot communicate.
-- Why B is wrong: VPC Flow Logs capture traffic metadata (source/destination IPs, ports, accept/reject) but do not visualize Transit Gateway topology or show route table associations and propagation status.
-- Why C is wrong: CloudWatch Dashboards can display custom metric widgets but cannot automatically discover or render Transit Gateway topology, attachments, or routing relationships.
-- Why D is wrong: AWS Config records resource configuration history and compliance, but it does not provide real-time network topology visualization or Transit Gateway-specific routing diagnostics.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Transit Gateway Network Manager provides a centralized global network view, topology visualization, and automated event detection for Transit Gateway attachments across multiple Regions. It shows route table associations and propagation status, making it the best tool to diagnose why a newly attached VPC cannot communicate.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">VPC Flow Logs capture traffic metadata (source/destination IPs, ports, accept/reject) but do not visualize Transit Gateway topology or show route table associations and propagation status.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">CloudWatch Dashboards can display custom metric widgets but cannot automatically discover or render Transit Gateway topology, attachments, or routing relationships.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">AWS Config records resource configuration history and compliance, but it does not provide real-time network topology visualization or Transit Gateway-specific routing diagnostics.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -346,10 +352,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: By centralizing Resolver inbound and outbound endpoints in a single shared services VPC, you reduce from 60 endpoints (2 per VPC × 30 VPCs) to just 2 endpoints. Each Resolver endpoint ENI costs ~$0.125/hr, so this saves significantly. Transit Gateway routes DNS traffic (port 53) from all spoke VPCs to the shared services VPC. AWS RAM shares Resolver rules across accounts so each VPC can use the centralized endpoints without creating its own.
-- Why A is wrong: Public DNS servers (e.g., 8.8.8.8) cannot resolve AWS private hosted zones or private DNS names within VPCs. Private hosted zone records are only accessible through the VPC's Route 53 Resolver. This would break internal DNS resolution entirely.
-- Why B is wrong: This is the current state — creating endpoints in each VPC is exactly the cost problem. Each endpoint requires a minimum of 2 ENIs, and at ~$0.125/hr per ENI, 30 VPCs with inbound + outbound endpoints = 120 ENIs = ~$10,800/month. Centralizing reduces this to 4 ENIs.
-- Why D is wrong: On-premises DNS servers cannot resolve AWS private hosted zones unless they forward queries to Route 53 Resolver inbound endpoints within a VPC. You would still need at least one set of Resolver inbound endpoints, and all DNS traffic from AWS to on-premises would need to traverse the hybrid connection, adding latency.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">By centralizing Resolver inbound and outbound endpoints in a single shared services VPC, you reduce from 60 endpoints (2 per VPC × 30 VPCs) to just 2 endpoints. Each Resolver endpoint ENI costs ~$0.125/hr, so this saves significantly. Transit Gateway routes DNS traffic (port 53) from all spoke VPCs to the shared services VPC. AWS RAM shares Resolver rules across accounts so each VPC can use the centralized endpoints without creating its own.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Public DNS servers (e.g., 8.8.8.8) cannot resolve AWS private hosted zones or private DNS names within VPCs. Private hosted zone records are only accessible through the VPC's Route 53 Resolver. This would break internal DNS resolution entirely.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">This is the current state — creating endpoints in each VPC is exactly the cost problem. Each endpoint requires a minimum of 2 ENIs, and at ~$0.125/hr per ENI, 30 VPCs with inbound + outbound endpoints = 120 ENIs = ~$10,800/month. Centralizing reduces this to 4 ENIs.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">On-premises DNS servers cannot resolve AWS private hosted zones unless they forward queries to Route 53 Resolver inbound endpoints within a VPC. You would still need at least one set of Resolver inbound endpoints, and all DNS traffic from AWS to on-premises would need to traverse the hybrid connection, adding latency.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -363,10 +369,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Centralizing Resolver endpoints in a shared services VPC eliminates repeated per-endpoint hourly charges (each ENI costs ~$0.125/hr). Transit Gateway routes DNS traffic from spoke VPCs to the shared services VPC. AWS RAM shares Resolver rules across accounts so spoke VPCs forward queries without their own endpoints.
-- Why B is wrong: Creating inbound and outbound endpoints in every VPC multiplies the hourly ENI charges significantly. With many VPCs this becomes the most expensive option.
-- Why C is wrong: Associating a private hosted zone with every VPC handles AWS-to-AWS resolution but does not solve the hybrid use case. On-premises resolvers still need Resolver inbound endpoints to query AWS private zones, and forwarding on-premises queries over VPN alone does not provide that.
-- Why D is wrong: Deploying Resolver endpoints per Region is reasonable, but using VPC peering solely for DNS traffic adds unnecessary peering connections and management overhead compared to Transit Gateway, and still requires endpoints in each Region rather than centralizing them.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Centralizing Resolver endpoints in a shared services VPC eliminates repeated per-endpoint hourly charges (each ENI costs ~$0.125/hr). Transit Gateway routes DNS traffic from spoke VPCs to the shared services VPC. AWS RAM shares Resolver rules across accounts so spoke VPCs forward queries without their own endpoints.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Creating inbound and outbound endpoints in every VPC multiplies the hourly ENI charges significantly. With many VPCs this becomes the most expensive option.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Associating a private hosted zone with every VPC handles AWS-to-AWS resolution but does not solve the hybrid use case. On-premises resolvers still need Resolver inbound endpoints to query AWS private zones, and forwarding on-premises queries over VPN alone does not provide that.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Deploying Resolver endpoints per Region is reasonable, but using VPC peering solely for DNS traffic adds unnecessary peering connections and management overhead compared to Transit Gateway, and still requires endpoints in each Region rather than centralizing them.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -380,10 +386,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS WAF associated with the ALB allows the team to create rate-based rules, geo-match conditions, and SQL injection / XSS match statements that inspect HTTP requests before they reach the application. Because the ALB is the internet-facing entry point, placing WAF here gives centralized Layer 7 protection for every target group behind it. WAF also integrates with AWS Managed Rules, reducing the effort to maintain signatures.
-- Why B is wrong: Network ACLs operate at Layer 3/4 (IP and port). They cannot inspect HTTP headers, query strings, or request bodies, so they cannot detect SQL injection, XSS, or perform application-layer rate limiting.
-- Why C is wrong: Security groups are stateful Layer 3/4 filters. Like NACLs, they have no visibility into HTTP request content and cannot block application-layer attacks.
-- Why D is wrong: AWS Shield Standard is automatically included at no extra cost and protects against volumetric/network-layer DDoS, but it does not inspect HTTP request content. Shield Advanced adds DDoS response team support and cost protection but still relies on WAF rules for application-layer filtering.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS WAF associated with the ALB allows the team to create rate-based rules, geo-match conditions, and SQL injection / XSS match statements that inspect HTTP requests before they reach the application. Because the ALB is the internet-facing entry point, placing WAF here gives centralized Layer 7 protection for every target group behind it. WAF also integrates with AWS Managed Rules, reducing the effort to maintain signatures.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Network ACLs operate at Layer 3/4 (IP and port). They cannot inspect HTTP headers, query strings, or request bodies, so they cannot detect SQL injection, XSS, or perform application-layer rate limiting.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Security groups are stateful Layer 3/4 filters. Like NACLs, they have no visibility into HTTP request content and cannot block application-layer attacks.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">AWS Shield Standard is automatically included at no extra cost and protects against volumetric/network-layer DDoS, but it does not inspect HTTP request content. Shield Advanced adds DDoS response team support and cost protection but still relies on WAF rules for application-layer filtering.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -399,13 +405,13 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: A centralized monitoring strategy requires traffic visibility (Flow Logs), threat detection (GuardDuty), and policy enforcement auditing (Firewall Manager) — each addressing a different pillar of network security monitoring.
-- Why A is correct (Enable VPC Flow Logs in all accounts and centralize to S3 in security account): Flow Logs capture IP traffic metadata (source/destination, ports, protocol, action) across all VPCs. Centralizing to a single S3 bucket in the security account enables cross-account traffic analysis using Athena or third-party SIEM tools.
-- Why B is correct (Enable GuardDuty in all accounts with delegated administrator in security account): GuardDuty analyzes Flow Logs, DNS logs, and CloudTrail events using machine learning to detect threats like port scanning, compromised instances, and data exfiltration. The delegated administrator model aggregates findings from all member accounts into a single pane of glass.
-- Why C is correct (Use Firewall Manager to audit and enforce security policies across accounts): Firewall Manager provides centralized visibility into policy compliance for WAF rules, security groups, Shield Advanced, and Network Firewall across all accounts. It reports non-compliant resources, enabling auditors to validate enforcement.
-- Why D is wrong (Enable CloudTrail in each account and review logs independently): While CloudTrail is valuable for API auditing, reviewing logs independently per account does not provide centralized visibility. An organization trail with centralized S3 delivery would be the correct CloudTrail approach, but the question asks about network traffic monitoring and threat detection, not API auditing.
-- Why E is wrong (Deploy CloudWatch dashboards in each account individually): Per-account dashboards create siloed views and do not provide cross-account centralized visibility. CloudWatch cross-account observability or a centralized monitoring account would be needed.
-- Why F is wrong (Use Trusted Advisor checks in each account): Trusted Advisor provides best-practice recommendations (e.g., unrestricted security groups) but operates per-account without centralized aggregation. It does not provide real-time threat detection or traffic analysis.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">A centralized monitoring strategy requires traffic visibility (Flow Logs), threat detection (GuardDuty), and policy enforcement auditing (Firewall Manager) — each addressing a different pillar of network security monitoring.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Explanation</span><span class="exp-text">Why A is correct (Enable VPC Flow Logs in all accounts and centralize to S3 in security account): Flow Logs capture IP traffic metadata (source/destination, ports, protocol, action) across all VPCs. Centralizing to a single S3 bucket in the security account enables cross-account traffic analysis using Athena or third-party SIEM tools.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Explanation</span><span class="exp-text">Why B is correct (Enable GuardDuty in all accounts with delegated administrator in security account): GuardDuty analyzes Flow Logs, DNS logs, and CloudTrail events using machine learning to detect threats like port scanning, compromised instances, and data exfiltration. The delegated administrator model aggregates findings from all member accounts into a single pane of glass.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Explanation</span><span class="exp-text">Why C is correct (Use Firewall Manager to audit and enforce security policies across accounts): Firewall Manager provides centralized visibility into policy compliance for WAF rules, security groups, Shield Advanced, and Network Firewall across all accounts. It reports non-compliant resources, enabling auditors to validate enforcement.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Explanation</span><span class="exp-text">Why D is wrong (Enable CloudTrail in each account and review logs independently): While CloudTrail is valuable for API auditing, reviewing logs independently per account does not provide centralized visibility. An organization trail with centralized S3 delivery would be the correct CloudTrail approach, but the question asks about network traffic monitoring and threat detection, not API auditing.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Explanation</span><span class="exp-text">Why E is wrong (Deploy CloudWatch dashboards in each account individually): Per-account dashboards create siloed views and do not provide cross-account centralized visibility. CloudWatch cross-account observability or a centralized monitoring account would be needed.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why F is wrong (Use Trusted Advisor checks in each account)</span><span class="exp-text">Trusted Advisor provides best-practice recommendations (e.g., unrestricted security groups) but operates per-account without centralized aggregation. It does not provide real-time threat detection or traffic analysis.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -419,10 +425,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: MACsec (IEEE 802.1AE) provides Layer 2 hop-by-hop encryption on Direct Connect dedicated connections. It is supported on 10 Gbps and 100 Gbps dedicated connections. The customer must use a MACsec-capable router and configure a Connection Key Name (CKN) and Connectivity Association Key (CAK) pair. This encrypts Ethernet frames before they traverse the Direct Connect link.
-- Why B is wrong: IPsec over a Direct Connect public VIF provides Layer 3 encryption, not Layer 2 Ethernet-frame-level encryption. While IPsec is a valid encryption option for Direct Connect traffic, it does not meet the specific requirement of Layer 2 encryption.
-- Why C is wrong: MACsec is only supported on dedicated Direct Connect connections, not on hosted connections provided by AWS Direct Connect Partners. Hosted connections share the partner's physical link, so MACsec cannot be configured by the end customer.
-- Why D is wrong: TLS operates at Layer 4/5 (transport/session layer), not Layer 2. Direct Connect connections do not support TLS configuration at the link level. TLS is used for application-layer encryption (e.g., HTTPS), not for encrypting the physical link.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">MACsec (IEEE 802.1AE) provides Layer 2 hop-by-hop encryption on Direct Connect dedicated connections. It is supported on 10 Gbps and 100 Gbps dedicated connections. The customer must use a MACsec-capable router and configure a Connection Key Name (CKN) and Connectivity Association Key (CAK) pair. This encrypts Ethernet frames before they traverse the Direct Connect link.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">IPsec over a Direct Connect public VIF provides Layer 3 encryption, not Layer 2 Ethernet-frame-level encryption. While IPsec is a valid encryption option for Direct Connect traffic, it does not meet the specific requirement of Layer 2 encryption.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">MACsec is only supported on dedicated Direct Connect connections, not on hosted connections provided by AWS Direct Connect Partners. Hosted connections share the partner's physical link, so MACsec cannot be configured by the end customer.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">TLS operates at Layer 4/5 (transport/session layer), not Layer 2. Direct Connect connections do not support TLS configuration at the link level. TLS is used for application-layer encryption (e.g., HTTPS), not for encrypting the physical link.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -436,10 +442,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Config rule evaluates route tables, detecting internet gateway routes in subnets that should be private, providing continuous compliance validation.
-- Why B is wrong: Manual review doesn't scale and doesn't provide continuous compliance monitoring.
-- Why C is wrong: Flow Logs show traffic but don't evaluate route table configurations.
-- Why D is wrong: CloudWatch metrics show operational data but don't validate route table configurations.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Config rule evaluates route tables, detecting internet gateway routes in subnets that should be private, providing continuous compliance validation.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Manual review doesn't scale and doesn't provide continuous compliance monitoring.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Flow Logs show traffic but don't evaluate route table configurations.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">CloudWatch metrics show operational data but don't validate route table configurations.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -453,10 +459,10 @@ details summary { color: #60a5fa; font-weight: 600; font-size: 0.95rem; padding:
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why A is correct: CloudFront edge locations in South America and Asia-Pacific serve cached static content close to users, dramatically reducing latency. Origin Shield consolidates origin-bound requests through a single additional cache layer, reducing origin load and transfer costs. Separate cache behaviors allow long TTLs for static images (high cache-hit ratio) and short TTLs for API responses (freshness), optimizing both performance and cost.
-- Why B is wrong: Global Accelerator optimizes TCP/UDP routing through the AWS backbone but does not cache content at edge locations. For a workload dominated by static product images, CloudFront's edge caching delivers far greater latency reduction than network-path optimization alone, and at lower cost.
-- Why C is wrong: Deploying full application stacks in two additional regions addresses latency but significantly increases infrastructure cost and operational complexity. CloudFront achieves comparable or better latency improvements for the static content portion at a fraction of the cost and operational burden.
-- Why D is wrong: Forwarding all requests to the origin without caching eliminates CloudFront's primary benefit—edge caching. This approach still incurs CloudFront data-transfer charges while providing no latency improvement for cacheable content, making it more expensive than serving directly from the origin with no performance gain.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why A is correct</span><span class="exp-text">CloudFront edge locations in South America and Asia-Pacific serve cached static content close to users, dramatically reducing latency. Origin Shield consolidates origin-bound requests through a single additional cache layer, reducing origin load and transfer costs. Separate cache behaviors allow long TTLs for static images (high cache-hit ratio) and short TTLs for API responses (freshness), optimizing both performance and cost.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Global Accelerator optimizes TCP/UDP routing through the AWS backbone but does not cache content at edge locations. For a workload dominated by static product images, CloudFront's edge caching delivers far greater latency reduction than network-path optimization alone, and at lower cost.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Deploying full application stacks in two additional regions addresses latency but significantly increases infrastructure cost and operational complexity. CloudFront achieves comparable or better latency improvements for the static content portion at a fraction of the cost and operational burden.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Forwarding all requests to the origin without caching eliminates CloudFront's primary benefit—edge caching. This approach still incurs CloudFront data-transfer charges while providing no latency improvement for cacheable content, making it more expensive than serving directly from the origin with no performance gain.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -472,10 +478,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: Creating separate Transit Gateway route tables — one associated with spoke VPC attachments (containing only a route to the on-premises CIDR via the Direct Connect gateway attachment) and another associated with the Direct Connect gateway attachment (containing routes to each spoke VPC CIDR) — ensures spoke VPCs can reach on-premises but cannot route traffic to each other. Since each spoke's route table only has the on-premises destination, there is no path between spokes.
-- Why A is wrong: A single route table with all VPC CIDRs propagated would allow spoke-to-spoke traffic because each spoke attachment would see routes to every other spoke VPC CIDR.
-- Why C is wrong: Blackhole routes for specific spoke CIDRs in a single route table would require constant updates as new spoke accounts are added and doesn't scale. With 30 accounts, this becomes an operational burden and is error-prone.
-- Why D is wrong: Disabling route propagation entirely and using only static routes would work conceptually but creates significant operational overhead — every VPC CIDR change or new account requires manual route updates across multiple route tables. Separate route tables with selective propagation is the scalable, recommended approach.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">Creating separate Transit Gateway route tables — one associated with spoke VPC attachments (containing only a route to the on-premises CIDR via the Direct Connect gateway attachment) and another associated with the Direct Connect gateway attachment (containing routes to each spoke VPC CIDR) — ensures spoke VPCs can reach on-premises but cannot route traffic to each other. Since each spoke's route table only has the on-premises destination, there is no path between spokes.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">A single route table with all VPC CIDRs propagated would allow spoke-to-spoke traffic because each spoke attachment would see routes to every other spoke VPC CIDR.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Blackhole routes for specific spoke CIDRs in a single route table would require constant updates as new spoke accounts are added and doesn't scale. With 30 accounts, this becomes an operational burden and is error-prone.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Disabling route propagation entirely and using only static routes would work conceptually but creates significant operational overhead — every VPC CIDR change or new account requires manual route updates across multiple route tables. Separate route tables with selective propagation is the scalable, recommended approach.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -489,10 +495,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why C is correct: Establishing Direct Connect connections from each on-premises site to separate Direct Connect locations provides both site-level and location-level redundancy. Attaching both to a Transit Gateway centralizes routing across VPCs. Adding Site-to-Site VPN from each site as backup ensures connectivity survives even a full Direct Connect outage, and BGP failover automates the path switchover without manual intervention.
-- Why A is wrong: A single Direct Connect from only the primary site creates a single point of failure for the dedicated connection. If that DX location or connection fails, only an internet-based VPN from the secondary site remains, providing no dedicated-bandwidth fallback for the primary site.
-- Why B is wrong: Using the same Direct Connect location for both sites means a location-level failure (power outage, fiber cut at the colocation facility) takes out both connections simultaneously, defeating the purpose of multi-site redundancy.
-- Why D is wrong: VPN-only connectivity provides no dedicated bandwidth or consistent latency guarantees. For production workloads requiring predictable network performance, Direct Connect is needed as the primary path. A virtual private gateway also does not support ECMP across VPN connections.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why C is correct</span><span class="exp-text">Establishing Direct Connect connections from each on-premises site to separate Direct Connect locations provides both site-level and location-level redundancy. Attaching both to a Transit Gateway centralizes routing across VPCs. Adding Site-to-Site VPN from each site as backup ensures connectivity survives even a full Direct Connect outage, and BGP failover automates the path switchover without manual intervention.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">A single Direct Connect from only the primary site creates a single point of failure for the dedicated connection. If that DX location or connection fails, only an internet-based VPN from the secondary site remains, providing no dedicated-bandwidth fallback for the primary site.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">Using the same Direct Connect location for both sites means a location-level failure (power outage, fiber cut at the colocation facility) takes out both connections simultaneously, defeating the purpose of multi-site redundancy.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">VPN-only connectivity provides no dedicated bandwidth or consistent latency guarantees. For production workloads requiring predictable network performance, Direct Connect is needed as the primary path. A virtual private gateway also does not support ECMP across VPN connections.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -506,10 +512,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS PrivateLink (VPC endpoint service) is purpose-built for this pattern. It creates ENIs with private IPs in each consumer VPC, so overlapping CIDRs are not an issue. Endpoint service permissions restrict access to specific AWS accounts. Consumers get service-level access only — no broad network connectivity to the provider VPC. PrivateLink scales to thousands of consumers without peering or routing complexity.
-- Why B is wrong: VPC peering cannot be established between VPCs with overlapping CIDR blocks. Even if CIDRs were unique, 50 peering connections would grant broad network-level access to the provider VPC, violating the least-privilege requirement.
-- Why C is wrong: Transit Gateway also cannot route between VPCs with overlapping CIDRs. It provides network-level connectivity rather than scoped service-level access, which violates the requirement to avoid granting broad network access.
-- Why D is wrong: A public ALB exposes the API to the internet. IP-based restrictions on NAT Gateway IPs are fragile (NAT IPs can change), and this approach does not provide private connectivity.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS PrivateLink (VPC endpoint service) is purpose-built for this pattern. It creates ENIs with private IPs in each consumer VPC, so overlapping CIDRs are not an issue. Endpoint service permissions restrict access to specific AWS accounts. Consumers get service-level access only — no broad network connectivity to the provider VPC. PrivateLink scales to thousands of consumers without peering or routing complexity.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">VPC peering cannot be established between VPCs with overlapping CIDR blocks. Even if CIDRs were unique, 50 peering connections would grant broad network-level access to the provider VPC, violating the least-privilege requirement.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">Transit Gateway also cannot route between VPCs with overlapping CIDRs. It provides network-level connectivity rather than scoped service-level access, which violates the requirement to avoid granting broad network access.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">A public ALB exposes the API to the internet. IP-based restrictions on NAT Gateway IPs are fragile (NAT IPs can change), and this approach does not provide private connectivity.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -523,10 +529,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (B): Enabling only the private EKS API endpoint keeps the API server off the public internet. On-premises CI/CD pipelines can reach it through the existing Direct Connect connection, which provides private connectivity into the VPC. The private endpoint creates an interface VPC endpoint (ENI) in the cluster subnets, so DNS resolution of the API server hostname returns private IP addresses.
-- Why A is wrong: Enabling the public endpoint with a CIDR allow-list still exposes the API to the internet. While the allow-list restricts access, it does not satisfy the mandate that the API must not be publicly reachable. It also doesn't leverage the existing Direct Connect path.
-- Why C is wrong: A NAT gateway provides outbound internet access for private subnets — it does not enable inbound access to the API server, nor does it make the API private.
-- Why D is wrong: Deploying an internet-facing NLB in front of the API server would expose it to the internet, directly violating the security requirement. The EKS API endpoint configuration is the correct mechanism, not a separate load balancer.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (B)</span><span class="exp-text">Enabling only the private EKS API endpoint keeps the API server off the public internet. On-premises CI/CD pipelines can reach it through the existing Direct Connect connection, which provides private connectivity into the VPC. The private endpoint creates an interface VPC endpoint (ENI) in the cluster subnets, so DNS resolution of the API server hostname returns private IP addresses.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Enabling the public endpoint with a CIDR allow-list still exposes the API to the internet. While the allow-list restricts access, it does not satisfy the mandate that the API must not be publicly reachable. It also doesn't leverage the existing Direct Connect path.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">A NAT gateway provides outbound internet access for private subnets — it does not enable inbound access to the API server, nor does it make the API private.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Deploying an internet-facing NLB in front of the API server would expose it to the internet, directly violating the security requirement. The EKS API endpoint configuration is the correct mechanism, not a separate load balancer.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -540,10 +546,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: CloudWatch Logs Insights natively supports querying across multiple log groups simultaneously. By sending VPC Flow Logs, CloudTrail, and application logs to CloudWatch Logs, the team can write a single Logs Insights query that correlates rejected flows with API configuration changes and application errors, enabling fast root cause identification without managing additional infrastructure.
-- Why A is wrong: Separate dashboards per log source require manual correlation across screens. There is no built-in mechanism to join events from different dashboards, making it difficult to determine whether a rejected flow coincided with a security group change.
-- Why B is wrong: While Athena can query S3-stored logs, each log type sits in a separate table with a different schema. Cross-table correlation requires writing complex SQL JOINs and managing table partitions. This approach adds operational overhead and query latency compared to CloudWatch Logs Insights for near-real-time correlation.
-- Why D is wrong: OpenSearch Service is a valid correlation platform, but it requires provisioning and managing an OpenSearch cluster (domain sizing, index lifecycle, access policies), adding significant operational overhead. For this use case, CloudWatch Logs Insights provides built-in cross-log-group correlation with no infrastructure to manage.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">CloudWatch Logs Insights natively supports querying across multiple log groups simultaneously. By sending VPC Flow Logs, CloudTrail, and application logs to CloudWatch Logs, the team can write a single Logs Insights query that correlates rejected flows with API configuration changes and application errors, enabling fast root cause identification without managing additional infrastructure.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Separate dashboards per log source require manual correlation across screens. There is no built-in mechanism to join events from different dashboards, making it difficult to determine whether a rejected flow coincided with a security group change.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why B is wrong</span><span class="exp-text">While Athena can query S3-stored logs, each log type sits in a separate table with a different schema. Cross-table correlation requires writing complex SQL JOINs and managing table partitions. This approach adds operational overhead and query latency compared to CloudWatch Logs Insights for near-real-time correlation.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">OpenSearch Service is a valid correlation platform, but it requires provisioning and managing an OpenSearch cluster (domain sizing, index lifecycle, access policies), adding significant operational overhead. For this use case, CloudWatch Logs Insights provides built-in cross-log-group correlation with no infrastructure to manage.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -557,10 +563,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (B): Deploying one NAT Gateway per AZ ensures high availability — if one AZ fails, traffic from other AZs is unaffected. Routing each AZ's private subnets to the local NAT Gateway eliminates cross-AZ data transfer charges ($0.01/GB per direction), which is the cost optimization component. This balances both reliability and cost.
-- Why A is wrong: A single NAT Gateway in one AZ creates a single point of failure. If that AZ goes down, all internet-bound traffic from private subnets stops. Additionally, traffic from other AZs to that NAT Gateway incurs cross-AZ data transfer charges.
-- Why C is wrong: NAT instances on t3.micro lack the bandwidth scalability of NAT Gateways (which scale to 100 Gbps), do not support automatic failover, require manual patching and management, and are not recommended by AWS for production workloads.
-- Why D is wrong: Using Transit Gateway to share a single NAT Gateway still creates a single point of failure and adds Transit Gateway attachment and data processing charges ($0.02/GB), making it more expensive, not less.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (B)</span><span class="exp-text">Deploying one NAT Gateway per AZ ensures high availability — if one AZ fails, traffic from other AZs is unaffected. Routing each AZ's private subnets to the local NAT Gateway eliminates cross-AZ data transfer charges ($0.01/GB per direction), which is the cost optimization component. This balances both reliability and cost.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">A single NAT Gateway in one AZ creates a single point of failure. If that AZ goes down, all internet-bound traffic from private subnets stops. Additionally, traffic from other AZs to that NAT Gateway incurs cross-AZ data transfer charges.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">NAT instances on t3.micro lack the bandwidth scalability of NAT Gateways (which scale to 100 Gbps), do not support automatic failover, require manual patching and management, and are not recommended by AWS for production workloads.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">Using Transit Gateway to share a single NAT Gateway still creates a single point of failure and adds Transit Gateway attachment and data processing charges ($0.02/GB), making it more expensive, not less.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -574,10 +580,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (B): AWS Config conformance packs bundle multiple managed and custom Config rules that continuously evaluate resource configurations against compliance requirements. Rules like vpc-sg-open-only-to-authorized-ports check security group configurations, and subnet-auto-assign-public-ip-disabled verifies subnet settings. Non-compliant resources are flagged automatically with SNS notifications, providing continuous compliance validation without custom code.
-- Why A is wrong: Network Firewall logs capture traffic that was allowed or denied by firewall rules, but they do not evaluate whether the underlying resource configurations (security groups, NACLs, subnet settings) are compliant. This approach only detects issues after traffic flows, not at the configuration level.
-- Why C is wrong: A custom Lambda function can check configurations, but this is a bespoke solution requiring ongoing maintenance. AWS Config already provides this capability natively with managed rules, conformance packs, and a compliance dashboard — rebuilding it in Lambda adds complexity without benefit.
-- Why D is wrong: VPC Flow Logs record actual network traffic metadata (source, destination, ports, action). They can identify suspicious traffic patterns, but they cannot validate whether resource configurations meet compliance standards. A security group could be misconfigured but show no violating traffic yet.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (B)</span><span class="exp-text">AWS Config conformance packs bundle multiple managed and custom Config rules that continuously evaluate resource configurations against compliance requirements. Rules like vpc-sg-open-only-to-authorized-ports check security group configurations, and subnet-auto-assign-public-ip-disabled verifies subnet settings. Non-compliant resources are flagged automatically with SNS notifications, providing continuous compliance validation without custom code.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Network Firewall logs capture traffic that was allowed or denied by firewall rules, but they do not evaluate whether the underlying resource configurations (security groups, NACLs, subnet settings) are compliant. This approach only detects issues after traffic flows, not at the configuration level.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">A custom Lambda function can check configurations, but this is a bespoke solution requiring ongoing maintenance. AWS Config already provides this capability natively with managed rules, conformance packs, and a compliance dashboard — rebuilding it in Lambda adds complexity without benefit.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">VPC Flow Logs record actual network traffic metadata (source, destination, ports, action). They can identify suspicious traffic patterns, but they cannot validate whether resource configurations meet compliance standards. A security group could be misconfigured but show no violating traffic yet.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -592,12 +598,12 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct: AWS Firewall Manager enables centralized management of security policies (WAF rules, security groups, Network Firewall policies, Shield Advanced protections) across all accounts in an AWS Organization. It automatically applies policies to new accounts and resources as they are created, and it reports non-compliant resources. Combined with AWS Config, which continuously evaluates resource configurations against desired state, the security team gets both enforcement and compliance visibility.
-- Why B is correct: Firewall Manager uses AWS Organizations integration to automatically apply WAF, Shield Advanced, security group, and Network Firewall policies across all member accounts, including newly created ones, without manual per-account configuration.
-- Why D is correct: AWS Config rules continuously evaluate network resource configurations (security groups, NACLs, VPC settings) and flag non-compliant resources, giving the security team visibility into compliance drift across all accounts.
-- Why A is wrong: GuardDuty is a threat detection service that analyzes VPC Flow Logs, DNS logs, and CloudTrail events for malicious activity. It does not enforce or manage firewall policies across accounts.
-- Why C is wrong: CloudTrail records API calls for auditing purposes but does not enforce security policies or evaluate resource compliance. It is a logging service, not a policy management or compliance evaluation tool.
-- Why E is wrong: AWS Shield Standard provides basic DDoS protection automatically, but it does not provide centralized policy management or compliance evaluation across multiple accounts. Shield Advanced adds more features but still requires Firewall Manager for centralized management.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct</span><span class="exp-text">AWS Firewall Manager enables centralized management of security policies (WAF rules, security groups, Network Firewall policies, Shield Advanced protections) across all accounts in an AWS Organization. It automatically applies policies to new accounts and resources as they are created, and it reports non-compliant resources. Combined with AWS Config, which continuously evaluates resource configurations against desired state, the security team gets both enforcement and compliance visibility.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why B is correct</span><span class="exp-text">Firewall Manager uses AWS Organizations integration to automatically apply WAF, Shield Advanced, security group, and Network Firewall policies across all member accounts, including newly created ones, without manual per-account configuration.</span></div>
+<div class="q-explain-item correct-exp"><span class="exp-label">✓ Why D is correct</span><span class="exp-text">AWS Config rules continuously evaluate network resource configurations (security groups, NACLs, VPC settings) and flag non-compliant resources, giving the security team visibility into compliance drift across all accounts.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">GuardDuty is a threat detection service that analyzes VPC Flow Logs, DNS logs, and CloudTrail events for malicious activity. It does not enforce or manage firewall policies across accounts.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">CloudTrail records API calls for auditing purposes but does not enforce security policies or evaluate resource compliance. It is a logging service, not a policy management or compliance evaluation tool.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why E is wrong</span><span class="exp-text">AWS Shield Standard provides basic DDoS protection automatically, but it does not provide centralized policy management or compliance evaluation across multiple accounts. Shield Advanced adds more features but still requires Firewall Manager for centralized management.</span></div></div>
 </details>
 </div>
 <div class="q-card">
@@ -611,10 +617,10 @@ Which approach satisfies these requirements?</div>
 </ul>
 <details>
 <summary>Show Explanation</summary>
-<div class="q-explain"><p>- Why correct (B): Amazon CloudFront caches video content at edge locations close to Asian users, eliminating repeated round-trips to us-east-1. Enabling Origin Shield in an Asia Pacific Region adds a centralized caching layer that reduces origin load and improves cache hit ratios. A high-TTL cache policy ensures video segments remain cached. This approach delivers low latency without deploying additional application infrastructure.
-- Why A is wrong: Deploying a full application stack in an Asia Pacific Region would reduce latency but directly contradicts the requirement to avoid multi-Region application deployments and keep costs low. Running duplicate infrastructure is expensive.
-- Why C is wrong: AWS Global Accelerator optimizes the network path to the endpoint using the AWS backbone, but it does not cache content. Since the endpoint group is still in us-east-1, Asian users still experience the full origin-to-user distance for every request. Global Accelerator is better suited for non-cacheable, dynamic workloads.
-- Why D is wrong: S3 Transfer Acceleration speeds up individual file transfers by routing through edge locations, but it does not cache content at the edge. Each request still retrieves the object from the S3 bucket. For repeated video segment requests from many users, there is no caching benefit—every viewer's request results in a full fetch. CloudFront, by contrast, caches segments at edge locations so subsequent viewers are served from cache. Additionally, S3 alone lacks CDN features like origin failover, cache-control headers, and geographic edge distribution optimized for streaming workloads.</p></div>
+<div class="q-explain"><div class="q-explain-item correct-exp"><span class="exp-label">✓ Why correct (B)</span><span class="exp-text">Amazon CloudFront caches video content at edge locations close to Asian users, eliminating repeated round-trips to us-east-1. Enabling Origin Shield in an Asia Pacific Region adds a centralized caching layer that reduces origin load and improves cache hit ratios. A high-TTL cache policy ensures video segments remain cached. This approach delivers low latency without deploying additional application infrastructure.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why A is wrong</span><span class="exp-text">Deploying a full application stack in an Asia Pacific Region would reduce latency but directly contradicts the requirement to avoid multi-Region application deployments and keep costs low. Running duplicate infrastructure is expensive.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why C is wrong</span><span class="exp-text">AWS Global Accelerator optimizes the network path to the endpoint using the AWS backbone, but it does not cache content. Since the endpoint group is still in us-east-1, Asian users still experience the full origin-to-user distance for every request. Global Accelerator is better suited for non-cacheable, dynamic workloads.</span></div>
+<div class="q-explain-item wrong-exp"><span class="exp-label">✗ Why D is wrong</span><span class="exp-text">S3 Transfer Acceleration speeds up individual file transfers by routing through edge locations, but it does not cache content at the edge. Each request still retrieves the object from the S3 bucket. For repeated video segment requests from many users, there is no caching benefit—every viewer's request results in a full fetch. CloudFront, by contrast, caches segments at edge locations so subsequent viewers are served from cache. Additionally, S3 alone lacks CDN features like origin failover, cache-control headers, and geographic edge distribution optimized for streaming workloads.</span></div></div>
 </details>
 </div>
 
